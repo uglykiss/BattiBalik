@@ -2,11 +2,10 @@ import pygame
 pygame.init()
 import random
 
-# Ekran boyutları
 screen_width = 800
 screen_height = 600
 
-#define font
+#font
 font = pygame.font.SysFont('Verneer', 60)
 white = (213, 78, 33)
 text_col = white
@@ -14,7 +13,6 @@ text_col = white
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption('Battı Balık')
 
-# Görseli yükle ve boyutlandır
 uw = pygame.image.load("assets/uw.png").convert()
 uw = pygame.transform.scale(uw, (screen_width, screen_height))
 button_img = pygame.image.load("assets/yeni-Photoroom.png")
@@ -32,8 +30,8 @@ def reset_game():
     batti.rect.x = 100
     batti.rect.y = int(screen_height / 2)
     batti.vel = 0  # Kuşun hızını sıfırla
-    batti.image = pygame.transform.rotate(batti.images[batti.index], 0)  # Rotasyonu sıfırla
-    scroll_speed = 2  # Kaydırma hızını sıfırla
+    batti.image = pygame.transform.rotate(batti.images[batti.index], 0)
+    scroll_speed = 2  # kaydırma
     game_over = False
     flying = False
     pass_pipe = False
@@ -54,7 +52,7 @@ pipe_frequency = random.randint(pipe_frequency_min, pipe_frequency_max)
 
 
 
-# Arka planın x koordinatları
+# Arka plan
 bg_x1 = 0
 bg_x2 = screen_width
 
@@ -112,7 +110,7 @@ class Bird(pygame.sprite.Sprite):
         self.counter = 0
         for num in range(1, 3):  # kaplus1, kaplus2
             img = pygame.image.load(f'assets/kaplus{num}.png').convert_alpha()
-            img = pygame.transform.scale(img, (70, 70))  # Görüntü boyutlandırma
+            img = pygame.transform.scale(img, (70, 70))  # Görüntüboyut
             self.images.append(img)
         self.image = self.images[self.index]
         self.rect = self.image.get_rect()
@@ -122,7 +120,7 @@ class Bird(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image) #çarpışma maskesi
 
     def update(self):
-        global flying, game_over, last_pipe  # flying ve game_over'a erişim
+        global flying, game_over, last_pipe  # erişim için 
 
         if flying and not game_over:
             # Gravity
@@ -141,14 +139,14 @@ class Bird(pygame.sprite.Sprite):
 
             # Animasyonun hızını kontrol et
             self.counter += 1
-            flap_cooldown = 25  # 5 frame'de bir animasyon değişecek
+            flap_cooldown = 25  # 5 framede bir animasyon değişecek
             if self.counter > flap_cooldown:
                 self.counter = 0
                 self.index += 1
                 if self.index >= len(self.images):
-                    self.index = 0  # Başa dön
+                    self.index = 0 
 
-            self.image = self.images[self.index]  # Görseli güncelle
+            self.image = self.images[self.index] 
 
             # Rotate the bird
             self.image = pygame.transform.rotate(self.images[self.index], self.vel * -1)
@@ -159,12 +157,12 @@ class Bird(pygame.sprite.Sprite):
                 self.rect.y += int(self.vel)
             else:
                 self.vel -= 0
-            self.image = pygame.transform.rotate(self.images[self.index], -90)  # Oyun bittiğinde aşağı bak
+            self.image = pygame.transform.rotate(self.images[self.index], -90)  # Oyun bittiğinde aşağı bak!!!!!!!!!!!
 
 
 
 
-        import random  # Rastgele boru pozisyonları için
+        import random  # Rastgele boru
 
         if not game_over and flying:
             time_now = pygame.time.get_ticks()
@@ -196,18 +194,16 @@ while run:
             flying = True
 
 
-    # Arka planı hareket ettir
+    # Arka planı hareket
     if not game_over:
         bg_x1 -= scroll_speed
         bg_x2 -= scroll_speed
 
-    # Eğer bir arka plan tamamen ekrandan çıkarsa, yeniden yerine koy
     if bg_x1 <= -screen_width:
         bg_x1 = screen_width
     if bg_x2 <= -screen_width:
         bg_x2 = screen_width
 
-    # Arka planları ekrana çiz
     screen.blit(uw, (bg_x1, 0))
     screen.blit(uw, (bg_x2, 0))
 
